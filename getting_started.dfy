@@ -145,3 +145,25 @@ method Find(a: array<int>, key: int) returns (index: int)
         i := i + 1;
     }
 }
+
+method FindIndexOfMax(a: array<int>) returns (index: int)
+    requires a.Length > 0
+    ensures 0 <= index < a.Length
+    ensures forall k :: 0 <= k < a.Length ==> a[index] >= a[k]
+{
+    index := 0;
+
+    var i := 1;
+    while i < a.Length
+        invariant 0 <= i <= a.Length
+        invariant 0 <= index < a.Length
+        invariant forall k :: 0 <= k < i ==> a[index] >= a[k]
+    {
+        if a[i] > a[index]
+        {
+            index := i;
+        }
+
+        i := i + 1;
+    }
+}
