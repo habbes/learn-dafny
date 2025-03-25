@@ -119,7 +119,29 @@ method m ()
 }
 
 method Find(a: array<int>, key: int) returns (index: int)
+    // if index is within bounds, it means we have found the key at that index
     ensures 0 <= index ==> index < a.Length && a[index] == key
+    // if index < 0, it means we have not found the key
+    ensures index < 0 ==> forall k :: 0 <= k < a.Length ==> a[k] != key
 {
-    return -1;
+    index := -1;
+
+    var i := 0;
+    while i < a.Length
+        invariant 0 <= i <= a.Length
+        /*
+        Dafny does not know that the loop actually covers all the elements. In order to convince Dafny of this,
+        we have to write an invariant that says that everything before the current index has already been looked at (and are not the key).
+        Just like the postcondition, we can use a quantifier to express this property
+        */
+        invariant forall k :: 0 <= k < i ==> a[k] != key
+    {
+        if a[i] == key
+        {
+            index := i;
+            return;
+        }
+
+        i := i + 1;
+    }
 }
