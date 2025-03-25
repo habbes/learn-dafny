@@ -105,3 +105,15 @@ method ComputeFib(n: nat) returns (b: nat)
         i := i + 1;
     }
 }
+
+
+method m ()
+{
+  var i := 20;
+  while i != 0
+    invariant 0 <= i
+    decreases i // helps Dafny to prove termination
+  {
+    i := i - 1; // if I change this to i := i - 2, Dafny will not be able to prove termination
+  }
+}
