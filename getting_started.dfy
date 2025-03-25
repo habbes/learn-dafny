@@ -72,3 +72,36 @@ method TestAbsFunction()
     // preconditions or postconditions on the abs function.
     assert abs(3) == 3;
 }
+
+// Using functions, we can express a fibonacci function
+// using the "natural" recursive definition.
+function fib(n: nat): nat // nat is the set of natural numbers: non-negative integers
+{
+    if n == 0 then 0
+    else if n == 1 then 1
+    else fib(n - 1) + fib(n - 2)
+}
+
+// However, the recursive implementation is very slow and inefficient.
+// in practice. We can define a method to implement something
+// more efficient, but use the function to provide a specification
+// that proves correctness of the efficient implementation
+
+method ComputeFib(n: nat) returns (b: nat)
+    ensures b == fib(n)
+{
+    if n == 0 { return 0; }
+
+    var i: int := 1;
+    var a := 0;
+    b := 1;
+
+    while i < n
+        invariant 0 < i <= n
+        invariant a == fib(i - 1)
+        invariant b == fib(i)
+    {
+        a, b := b, a + b;
+        i := i + 1;
+    }
+}
