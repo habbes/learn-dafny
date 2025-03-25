@@ -167,3 +167,18 @@ method FindIndexOfMax(a: array<int>) returns (index: int)
         i := i + 1;
     }
 }
+
+// predicate is a function tha returns a boolean
+// we can use it in specification instead of writing the properties directly
+// over and over
+
+predicate sorted(a: array<int>)
+    /*
+    The reading frame of a function (or predicate) is all the memory locations that the function is allowed to read.
+    The reason we might limit what a function can read is so that when we write to memory,
+    we can be sure that functions that did not read that part of memory have the same value they did before.
+    */
+    reads a
+{
+    forall j, k :: 0 <= j < k < a.Length ==> a[j] <= a[k]
+}
