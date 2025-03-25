@@ -25,3 +25,36 @@ method Max(a: int, b: int) returns (max: int)
         max := a;
     }
 }
+
+method Testing()
+{
+    var v := Abs(3);
+    assert 0 <= v;
+}
+
+method TestMax()
+{
+    /* This method fails verification because the assertions do not hold
+
+    getting_started.dfy(39,4): Error: assertion might not hold
+    |
+    |     assert v == 5;
+    |     ^^^^^^^^^^^^^^
+
+    getting_started.dfy(41,4): Error: assertion might not hold
+    |
+    |     assert v == 5;
+    |     ^^^^^^^^^^^^^^
+
+    getting_started.dfy(43,4): Error: assertion might not hold
+    |
+    |     assert v == 3;
+    |     ^^^^^^^^^^^^^^
+   */
+    var v := Max(3, 5);
+    assert v == 5;
+    v := Max(5, 3);
+    assert v == 5;
+    v := Max(3, 3);
+    assert v == 3;
+}
