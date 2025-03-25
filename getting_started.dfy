@@ -4,9 +4,9 @@ method Abs(x: int) returns (y: int)
     ensures x < 0 ==> y == -x
 {
     if x < 0 {
-        return -x;
+        y := -x;
     } else {
-        return x;
+        y := x;
     }
 }
 
@@ -29,11 +29,14 @@ method Max(a: int, b: int) returns (max: int)
     }
 }
 
-method Testing()
+method TestAbs()
 {
-    var v := Abs(3);
+    // We need to capture the
+    // value in a local variable
+    // before we can use it in a specification verifier like assert.
+    var v := Abs(-1);
     assert 0 <= v;
-    assert v == 3;
+    assert v == 1;
 }
 
 method TestMax()
@@ -44,4 +47,19 @@ method TestMax()
     assert v == 5;
     v := Max(3, 3);
     assert v == 3;
+}
+
+function abs(x: int): int
+{
+    // Functions consist of exactly one expression.
+    if x < 0 then -x else x
+}
+
+method TestAbsFunction()
+{
+    // We can use functions directly in specifications.
+    // Notice that we don't need to capture the return value in a local variable.
+    // Also notice that we can assert the result without specifying
+    // preconditions or postconditions on the abs function.
+    assert abs(3) == 3;
 }
