@@ -1,4 +1,4 @@
-method Abs(x: int) returns (y: int)
+method AbsInitial(x: int) returns (y: int)
     ensures 0 <= y
     ensures 0 <= x ==> y == x
     ensures x < 0 ==> y == -x
@@ -8,6 +8,15 @@ method Abs(x: int) returns (y: int)
     } else {
         y := x;
     }
+}
+
+method Abs(x: int) returns (y: int)
+    // we can use a function in pre/post conditions
+    ensures y == abs(x)
+{
+    // We can use a function in a method.
+    // Notice that this method is now redundant and unncessary.
+    return abs(x);
 }
 
 method MultipleReturns(x: int, y: int) returns (more: int, less: int)
