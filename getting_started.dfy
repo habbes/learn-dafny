@@ -117,3 +117,9 @@ method m ()
     i := i - 1; // if I change this to i := i - 2, Dafny will not be able to prove termination
   }
 }
+
+method Find(a: array<int>, key: int) returns (index: int)
+    ensures 0 <= index ==> index < a.Length && a[index] == key
+{
+    return -1;
+}
