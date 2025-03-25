@@ -15,3 +15,13 @@ method MultipleReturns(x: int, y: int) returns (more: int, less: int)
     more := x + y;
     less := x - y;
 }
+
+method Max(a: int, b: int) returns (max: int)
+    ensures max >= a && max >= b
+{
+    if a < b {
+        max := b;
+    } else {
+        max := a;
+    }
+}
