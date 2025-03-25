@@ -1,4 +1,4 @@
-method Abs(x: int) return (y: int)
+method Abs(x: int) returns (y: int)
     ensures 0 <= y
 {
     if x < 0 {
@@ -9,8 +9,8 @@ method Abs(x: int) return (y: int)
 }
 
 method MultipleReturns(x: int, y: int) returns (more: int, less: int)
-    ensures less < x
-    ensures x < more
+    requires 0 < y
+    ensures less < x < more
 {
     more := x + y;
     less := x - y;
